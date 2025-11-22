@@ -31,7 +31,24 @@ export async function performAutomation({ url }) {
   // You're logged into all sites instantly
   const page = await context.newPage();
   
-  await page.goto("https://example.com/");
+  await page.goto("https://stars.ylopo.com/lead-detail/dc627ba3-6a60-46c5-981b-c06e089add2e/saved-search");
+
+  await page.getByRole('textbox', { name: 'Label' }).fill('Form Submission');
+
+  await page.getByRole('textbox', { name: 'Enter Neighborhood, City,' }).fill('Austin');
+  await page.getByRole('heading', { name: 'CITY' }).waitFor({ state: 'visible' });
+
+  const firstLocation = page.locator('.grouped-location-autocomplete-suggestion').first();
+  await firstLocation.click();
+
+  const propertyValue = 350000;
+  const propertyValueCalculated = propertyValue / 1000 - 50;
+  const propertyValueFormatted = propertyValueCalculated.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  await page.getByRole('textbox', { name: 'Price Max' }).fill(propertyValueFormatted);
+
+  await page.getByRole('button', { name: 'Submit and Save' }).click();
+  
   
   await page.waitForTimeout(2000);
 
