@@ -23,8 +23,8 @@ export async function performAutomation({ url }) {
 
   // 🚀 Load ALL cookies into this context, uncomment needed cookies and comment unneeded cookies
   await preloadCookies(context, [
-    "FOLLOWUPBOSS_LOGIN_COOKIE",
-    // "YLOPO_LOGIN_COOKIE",
+    // "FOLLOWUPBOSS_LOGIN_COOKIE",
+    "YLOPO_LOGIN_COOKIE",
     // "ZILLOW_LOGIN_COOKIE"
   ]);
 
