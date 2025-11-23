@@ -42,8 +42,11 @@ export async function performAutomation({ url }) {
   await firstLocation.click();
 
   const propertyValue = 350000;
-  const propertyValueCalculated = propertyValue / 1000 - 50;
   const propertyValueFormatted = propertyValueCalculated.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const minPropertyValueCalculated = propertyValue / 1000 - 50;
+  const minPropertyValueFormatted = minPropertyValueCalculated.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  await page.getByRole('textbox', { name: 'Price Min' }).fill(minPropertyValueFormatted);
 
   await page.getByRole('textbox', { name: 'Price Max' }).fill(propertyValueFormatted);
 
