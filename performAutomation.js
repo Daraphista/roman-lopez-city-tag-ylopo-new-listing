@@ -33,7 +33,7 @@ export async function performAutomation({ url }) {
   
   await page.goto(`${url}/saved-search/`, { waitUntil: 'networkidle' });
 
-  await page.getByRole('textbox', { name: 'Label' }).fill('Form Submission Test');
+  await page.getByRole('textbox', { name: 'Label' }).fill('Form Submission');
 
   await page.getByRole('textbox', { name: 'Enter Neighborhood, City,' }).fill('Austin');
   await page.getByRole('heading', { name: 'CITY' }).waitFor({ state: 'visible' });
