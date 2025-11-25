@@ -31,7 +31,7 @@ export async function performAutomation({ url }) {
   // You're logged into all sites instantly
   const page = await context.newPage();
   
-  await page.goto(url, { waitUntil: 'networkidle' });
+  await page.goto(`${url}/saved-search/`, { waitUntil: 'networkidle' });
 
   await page.getByRole('textbox', { name: 'Label' }).fill('Form Submission Test');
 
