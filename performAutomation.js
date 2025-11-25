@@ -60,5 +60,5 @@ export async function performAutomation({ url }) {
   await browser.close();
   await client.sessions.release(session.id);
 
-  return { done: true, pageTitle: title };
+  return { done: true };
 }
