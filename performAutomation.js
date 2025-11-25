@@ -31,14 +31,31 @@ export async function performAutomation({ url }) {
   // You're logged into all sites instantly
   const page = await context.newPage();
   
-  await page.goto("https://stars.ylopo.com/");
-  
-  await page.waitForTimeout(10000);
+  await page.goto(url, { waitUntil: 'networkidle' });
 
-  // Example: get page title
-  const title = await page.title();
+  await page.getByRole('textbox', { name: 'Label' }).fill('Form Submission Test');
 
-  await page.waitForTimeout(10000);
+  await page.getByRole('textbox', { name: 'Enter Neighborhood, City,' }).fill('Austin');
+  await page.getByRole('heading', { name: 'CITY' }).waitFor({ state: 'visible' });
+
+  const firstLocation = page.locator('.grouped-location-autocomplete-suggestion').first();
+  await firstLocation.click();
+
+  const propertyValue = 350000;
+  const propertyValueCalculated = propertyValue / 1000 + 50;
+  const propertyValueFormatted = propertyValueCalculated.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const minPropertyValueCalculated = propertyValue / 1000 - 50;
+  const minPropertyValueFormatted = minPropertyValueCalculated.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+  await page.getByRole('textbox', { name: 'Price Min' }).fill(minPropertyValueFormatted);
+
+  await page.getByRole('textbox', { name: 'Price Max' }).fill(propertyValueFormatted);
+
+  await page.getByRole('button', { name: 'Submit and Save' }).click();
+
+  await page.waitForURL((currentUrl) => currentUrl.href !== url, {
+    timeout: 30000
+  });
 
   await browser.close();
   await client.sessions.release(session.id);
