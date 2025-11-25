@@ -4,7 +4,7 @@ import Steel from "steel-sdk";
 import { chromium } from "playwright";
 import { steelConfig } from "./steelConfig.js";
 
-export async function performAutomation({ url }) {
+export async function performAutomation({ url, propertyValue, city }) {
   const STEEL_API_KEY = process.env.STEEL_API_KEY;
   if (!STEEL_API_KEY) throw new Error("Missing STEEL_API_KEY");
 
@@ -35,13 +35,12 @@ export async function performAutomation({ url }) {
 
   await page.getByRole('textbox', { name: 'Label' }).fill('Form Submission');
 
-  await page.getByRole('textbox', { name: 'Enter Neighborhood, City,' }).fill('Austin');
+  await page.getByRole('textbox', { name: 'Enter Neighborhood, City,' }).fill(city);
   await page.getByRole('heading', { name: 'CITY' }).waitFor({ state: 'visible' });
 
   const firstLocation = page.locator('.grouped-location-autocomplete-suggestion').first();
   await firstLocation.click();
 
-  const propertyValue = 350000;
   const propertyValueCalculated = propertyValue / 1000 + 50;
   const propertyValueFormatted = propertyValueCalculated.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   const minPropertyValueCalculated = propertyValue / 1000 - 50;
